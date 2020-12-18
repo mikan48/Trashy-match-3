@@ -19,39 +19,42 @@ public class FindMatches : MonoBehaviour
         StartCoroutine(FindAllMatchesCoroutine());
     }
 
+    private void AddToListAndMatch(GameObject item)
+    {
+        if (!currentMatches.Contains(item))
+        {
+            currentMatches.Add(item);
+        }
+        item.GetComponent<Item>().isMatched = true;
+    }
+
+    private void GetNearbyPieces(GameObject item1, GameObject item2, GameObject item3)
+    {
+        AddToListAndMatch(item1);
+        AddToListAndMatch(item2);
+        AddToListAndMatch(item3);
+    }
+
     private IEnumerator FindAllMatchesCoroutine()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
 
         for (int i = 0; i < board.width; i++)
         {
             for (int j = 0; j < board.height; j++)
             {
                 GameObject currentItem = board.allItems[i, j];
+
                 if (currentItem != null)
                 {
-                    if(i > 0 && i < board.width - 1)  //horizontal
+                    if (i > 0 && i < board.width - 1)  //horizontal
                     {
                         GameObject leftItem = board.allItems[i - 1, j];
                         GameObject rightItem = board.allItems[i + 1, j];
 
-                        if(leftItem != null && rightItem != null && currentItem.CompareTag(leftItem.tag) && currentItem.CompareTag(rightItem.tag)) //if they exists
-                        {       
-                            if(!currentMatches.Contains(leftItem))                                     //this needs to rework
-                            {
-                                currentMatches.Add(leftItem);
-                            }
-                            leftItem.GetComponent<Item>().isMatched = true;
-                            if (!currentMatches.Contains(rightItem))                                     
-                            {
-                                currentMatches.Add(rightItem);
-                            }
-                            rightItem.GetComponent<Item>().isMatched = true;
-                            if (!currentMatches.Contains(currentItem))
-                            {
-                                currentMatches.Add(currentItem);
-                            }
-                            currentItem.GetComponent<Item>().isMatched = true;
+                        if (leftItem != null && rightItem != null && (leftItem.tag == currentItem.tag && rightItem.tag == currentItem.tag)) //if they exists
+                        {
+                            GetNearbyPieces(leftItem, currentItem, rightItem);
                         }
                     }
 
@@ -59,28 +62,16 @@ public class FindMatches : MonoBehaviour
                     {
                         GameObject upItem = board.allItems[i, j + 1];
                         GameObject downItem = board.allItems[i, j - 1];
-                        if (upItem != null && downItem != null && (currentItem.CompareTag(upItem.tag) && currentItem.CompareTag(downItem.tag))) 
+
+                        if (upItem != null && downItem != null && (upItem.tag == currentItem.tag && downItem.tag == currentItem.tag))
                         {
-                            if (!currentMatches.Contains(upItem))                                //same here
-                            {
-                                currentMatches.Add(upItem);
-                            }
-                            upItem.GetComponent<Item>().isMatched = true;
-                            if (!currentMatches.Contains(downItem))
-                            {
-                                currentMatches.Add(downItem);
-                            }
-                            downItem.GetComponent<Item>().isMatched = true;
-                            if (!currentMatches.Contains(currentItem))
-                            {
-                                currentMatches.Add(currentItem);
-                            }
-                            currentItem.GetComponent<Item>().isMatched = true;
+                            GetNearbyPieces(upItem, currentItem, downItem);
                         }
                     }
                 }
             }
         }
 
+        //yield return new WaitForSeconds(.3f);
     }
 }
