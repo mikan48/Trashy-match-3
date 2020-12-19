@@ -23,17 +23,17 @@ public class FindMatches : MonoBehaviour
     {
         yield return new WaitForSeconds(.2f);
 
-        for (int i = 0; i < board.width; i++)
+        for (int y = 0; y < board.height; y++)
         {
-            for (int j = 0; j < board.height; j++)
+            for (int x = 0; x < board.width; x++)
             {
-                GameObject currentItem = board.allItems[i, j];
+                GameObject currentItem = board.allItems[y, x];
                 if (currentItem != null)
                 {
-                    if(i > 0 && i < board.width - 1)  //horizontal
+                    if(y > 0 && y < board.height - 1)  //horizontal
                     {
-                        GameObject leftItem = board.allItems[i - 1, j];
-                        GameObject rightItem = board.allItems[i + 1, j];
+                        GameObject leftItem = board.allItems[y - 1, x];
+                        GameObject rightItem = board.allItems[y + 1, x];
 
                         if(leftItem != null && rightItem != null && currentItem.CompareTag(leftItem.tag) && currentItem.CompareTag(rightItem.tag)) //if they exists
                         {       
@@ -55,10 +55,10 @@ public class FindMatches : MonoBehaviour
                         }
                     }
 
-                    if (j > 0 && j < board.height - 1)  //vertical
+                    if (x > 0 && x < board.width - 1)  //vertical
                     {
-                        GameObject upItem = board.allItems[i, j + 1];
-                        GameObject downItem = board.allItems[i, j - 1];
+                        GameObject upItem = board.allItems[y, x + 1];
+                        GameObject downItem = board.allItems[y, x - 1];
                         if (upItem != null && downItem != null && (currentItem.CompareTag(upItem.tag) && currentItem.CompareTag(downItem.tag))) 
                         {
                             if (!currentMatches.Contains(upItem))                                //same here

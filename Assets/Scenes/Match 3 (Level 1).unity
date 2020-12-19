@@ -151,9 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  width: 7
-  height: 5
-  offSet: 5
+  width: 3
+  height: 3
+  offSet: 3
+  tilesToMove: 0
   tilePrefab: {fileID: 3767408924065792320, guid: c12390ba2ed8c104b8a92af0401fe65f,
     type: 3}
   items:
@@ -230,7 +231,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 3.6462183
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
